@@ -53,11 +53,10 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOpt = User.findByIdOptional(id);
         if (userOpt.isEmpty()) throw new NotFoundException("User not empty");
 
-        //não ta funcionando
-//        Optional<User> byEmail = User.findByEmail(obj.email);
-//        if (!byEmail.get().id.equals(obj.id)) {
-//            throw new BadRequestException("Este email já existe");
-//        }
+        User byEmail = User.findByEmail(obj.email).orElseThrow(() -> new BadRequestException("Este email já existe"));
+        if (byEmail.id == obj.id) {
+            throw new BadRequestException("Este email já existe");
+        }
 
         User user = userOpt.get();
         user.userName = obj.userName;

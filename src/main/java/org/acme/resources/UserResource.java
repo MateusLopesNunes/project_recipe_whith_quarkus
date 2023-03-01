@@ -34,7 +34,7 @@ public class UserResource {
     private UserMapper userMapper;
 
     @GET
-    @RolesAllowed("user")
+//    @RolesAllowed("user")
     public Response getAll() {
         List<User> users = userService.getAll();
         return Response.ok(userMapper.toResourceList(users)).build();
