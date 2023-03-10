@@ -26,7 +26,6 @@ public class User extends PanacheEntityBase {
     public String email;
     @Password
     public String password;
-
     @Roles
     public String role;
     public LocalDateTime birthDate;

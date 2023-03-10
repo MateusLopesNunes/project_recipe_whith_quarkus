@@ -6,6 +6,7 @@ import org.acme.models.Category;
 import org.acme.models.User;
 
 import java.util.List;
+import java.util.concurrent.CompletionStage;
 
 public interface UserService {
 
@@ -22,4 +23,6 @@ public interface UserService {
     void delete(Long id);
 
     String login(AuthRequest auth);
+
+    public CompletionStage resetPassword(String email);
 }
