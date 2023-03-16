@@ -35,7 +35,7 @@ public class CategoryResource {
 
     @POST
     @Transactional
-    @RolesAllowed("user")
+    //@RolesAllowed("user")
     public Response create(@Valid CategoryRequest obj) {
         Category categoryDto = categoryMapper.toResource(obj);
         Category category = categoryService.create(categoryDto);

@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import org.acme.dto.request.AuthRequest;
 import org.acme.models.Category;
 import org.acme.models.User;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import java.util.List;
 import java.util.concurrent.CompletionStage;

@@ -21,9 +21,6 @@ public class UserRequest {
     @NotBlank(message="Telephone may not be blank")
     private String tel;
 
-    @NotBlank(message="Perfil image may not be blank")
-    private String perfilImage;
-
     public String getUserName() {
         return userName;
     }
@@ -62,13 +59,5 @@ public class UserRequest {
 
     public void setTel(String tel) {
         this.tel = tel;
-    }
-
-    public String getPerfilImage() {
-        return perfilImage;
-    }
-
-    public void setPerfilImage(String perfilImage) {
-        this.perfilImage = perfilImage;
     }
 }

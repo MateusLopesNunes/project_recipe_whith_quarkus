@@ -1,5 +1,8 @@
 package org.acme.dto.request;
 
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -8,6 +11,7 @@ public class UserUpdateRequest {
 
     @NotBlank(message="Name may not be blank")
     private Long id;
+
     @NotBlank(message="Name may not be blank")
     private String userName;
 
@@ -23,8 +27,8 @@ public class UserUpdateRequest {
     @NotBlank(message="Telephone may not be blank")
     private String tel;
 
-    @NotBlank(message="Perfil image may not be blank")
-    private String perfilImage;
+    @MultipartForm
+    private MultipartFormDataInput perfilImage;
 
     public Long getId() {
         return id;
@@ -74,11 +78,11 @@ public class UserUpdateRequest {
         this.tel = tel;
     }
 
-    public String getPerfilImage() {
+    public MultipartFormDataInput getPerfilImage() {
         return perfilImage;
     }
 
-    public void setPerfilImage(String perfilImage) {
+    public void setPerfilImage(MultipartFormDataInput perfilImage) {
         this.perfilImage = perfilImage;
     }
 }
