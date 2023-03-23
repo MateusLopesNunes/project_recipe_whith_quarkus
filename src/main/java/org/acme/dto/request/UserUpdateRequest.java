@@ -27,9 +27,6 @@ public class UserUpdateRequest {
     @NotBlank(message="Telephone may not be blank")
     private String tel;
 
-    @MultipartForm
-    private MultipartFormDataInput perfilImage;
-
     public Long getId() {
         return id;
     }
@@ -76,13 +73,5 @@ public class UserUpdateRequest {
 
     public void setTel(String tel) {
         this.tel = tel;
-    }
-
-    public MultipartFormDataInput getPerfilImage() {
-        return perfilImage;
-    }
-
-    public void setPerfilImage(MultipartFormDataInput perfilImage) {
-        this.perfilImage = perfilImage;
     }
 }

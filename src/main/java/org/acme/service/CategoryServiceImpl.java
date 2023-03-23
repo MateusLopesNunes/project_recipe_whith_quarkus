@@ -1,14 +1,19 @@
 package org.acme.service;
 
 import org.acme.models.Category;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
 public class CategoryServiceImpl implements CategoryService{
+
+    @Inject
+    private ImageService imageService;
 
     @Override
     public List<Category> getAll() {
@@ -36,6 +41,18 @@ public class CategoryServiceImpl implements CategoryService{
 
         category.get().name = obj.name;
         return category.get();
+    }
+
+    @Override
+    public Category addImage(MultipartFormDataInput input, Long id) {
+        Optional<Category> categoryOpt = Category.findByIdOptional(id);
+        if (categoryOpt.isEmpty()) throw new NotFoundException("Category not empty");
+
+        Category category = categoryOpt.get();
+        category.image = imageService.uploadFile(input, "/upload/category")
+                                     .stream().findFirst().get();
+
+        return category;
     }
 
     @Override

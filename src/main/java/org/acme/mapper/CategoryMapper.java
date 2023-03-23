@@ -5,8 +5,11 @@ import org.acme.dto.response.CategoryResponse;
 import org.acme.models.Category;
 import org.mapstruct.Mapper;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Singleton;
 import java.util.List;
 
+@Singleton
 @Mapper(componentModel = "cdi")
 public interface CategoryMapper {
 

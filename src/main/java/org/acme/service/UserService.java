@@ -26,4 +26,6 @@ public interface UserService {
     String login(AuthRequest auth);
 
     public CompletionStage resetPassword(String email);
+
+    public User addPerfilImage(MultipartFormDataInput input, Long id);
 }

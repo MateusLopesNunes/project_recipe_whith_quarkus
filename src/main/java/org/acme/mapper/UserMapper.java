@@ -7,8 +7,11 @@ import org.acme.models.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Singleton;
 import java.util.List;
 
+@Singleton
 @Mapper(componentModel = "cdi")
 public interface UserMapper {
 

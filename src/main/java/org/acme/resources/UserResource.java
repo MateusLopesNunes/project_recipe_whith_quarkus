@@ -105,6 +105,15 @@ public class UserResource {
         return userService.resetPassword(email);
     }
 
+    @PATCH()
+    @Path("/addPerfilImage/{id}")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    public User addPerfilImage(@MultipartForm MultipartFormDataInput input, @PathParam Long id) {
+        return userService.addPerfilImage(input, id);
+    }
+
     //--------------------------------------------------------------------------
 
     @POST

@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(Long id) {
         Optional<User> user = User.findByIdOptional(id);
-        if (user.isEmpty()) throw new NotFoundException("User not empty");
+        if (user.isEmpty()) throw new NotFoundException("User not found");
 
         return user.get();
     }
@@ -74,7 +74,6 @@ public class UserServiceImpl implements UserService {
         user.password = obj.password;
         user.updatedAt = LocalDateTime.now();
         user.birthDate = obj.birthDate;
-        user.perfilImage = obj.perfilImage;
 
         return user;
     }
@@ -101,7 +100,7 @@ public class UserServiceImpl implements UserService {
         //gerar senha aleátoria
         String newPassword = generateRandomPassword(12);
 
-        User user = User.findByEmail(email).orElseThrow(() -> new BadRequestException());
+        User user = User.findByEmail(email).orElseThrow(() -> new BadRequestException("Email inválido"));
         user.password = BcryptUtil.bcryptHash(newPassword);
         user.persist();
 
@@ -111,6 +110,18 @@ public class UserServiceImpl implements UserService {
                         "A sua sua nova senha é: " + newPassword
                 )
         ).subscribeAsCompletionStage().thenApply(x -> Response.accepted().build());
+    }
+
+    @Override
+    public User addPerfilImage(MultipartFormDataInput input, Long id) {
+        Optional<User> userOpt = User.findByIdOptional(id);
+        if (userOpt.isEmpty()) throw new NotFoundException("User not found");
+
+        User user = userOpt.get();
+        user.perfilImage = imageService.uploadFile(input, "/upload/images")
+                                       .stream().findFirst().get();
+
+        return user;
     }
 
     //Utill

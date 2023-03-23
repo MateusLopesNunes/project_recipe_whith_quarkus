@@ -4,7 +4,11 @@ import org.acme.dto.request.CategoryRequest;
 import org.acme.dto.response.CategoryResponse;
 import org.acme.mapper.CategoryMapper;
 import org.acme.models.Category;
+import org.acme.models.User;
 import org.acme.service.CategoryService;
+import org.jboss.resteasy.annotations.jaxrs.PathParam;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -56,6 +60,16 @@ public class CategoryResource {
     @RolesAllowed("user")
     public Response update(CategoryRequest obj, Long id) {
         Category category = categoryService.update(categoryMapper.toResource(obj), id);
+        return Response.ok(categoryMapper.toResource(category)).build();
+    }
+
+    @PATCH()
+    @Path("/addImage/{id}")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    public Response addImage(@MultipartForm MultipartFormDataInput input, @PathParam Long id) {
+        Category category = categoryService.addImage(input, id);
         return Response.ok(categoryMapper.toResource(category)).build();
     }
 
