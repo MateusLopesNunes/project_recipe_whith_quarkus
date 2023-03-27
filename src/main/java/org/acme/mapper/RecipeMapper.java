@@ -1,22 +1,31 @@
 package org.acme.mapper;
 
-import org.acme.dto.request.CategoryRequest;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.acme.dto.request.RecipeRequest;
-import org.acme.dto.response.CategoryResponse;
 import org.acme.dto.response.RecipeResponse;
 import org.acme.models.Category;
 import org.acme.models.Recipe;
+import org.acme.models.User;
 import org.mapstruct.Mapper;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Singleton;
 import java.util.List;
 
-@Singleton
 @Mapper(componentModel = "cdi")
 public interface RecipeMapper {
 
-    Recipe toResource(RecipeRequest recipe);
+    default Recipe toResource(RecipeRequest recipeReq) {
+        Recipe recipe = new Recipe();
+        recipe.title = recipeReq.getTitle();
+        recipe.image = recipeReq.getImage();
+        recipe.description = recipeReq.getDescription();
+        recipe.numberOfPortion = recipeReq.getNumberOfPortion();
+        recipe.preparationMethod = recipeReq.getPreparationMethod();
+
+        recipe.author = User.findById(recipeReq.getAuthor());
+        recipe.category = Category.findById(recipeReq.getCategory());
+
+        return recipe;
+    };
 
     RecipeResponse toResource(Recipe recipe);
 

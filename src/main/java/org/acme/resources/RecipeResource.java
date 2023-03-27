@@ -8,8 +8,10 @@ import org.acme.mapper.CategoryMapper;
 import org.acme.mapper.RecipeMapper;
 import org.acme.models.Category;
 import org.acme.models.Recipe;
+import org.acme.models.User;
 import org.acme.service.CategoryService;
 import org.acme.service.RecipeService;
+import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -40,7 +42,7 @@ public class RecipeResource {
 
     @POST
     @Transactional
-    @RolesAllowed("user")
+    //@RolesAllowed("user")
     public Response create(@Valid RecipeRequest obj) {
         Recipe recipeDto = recipeMapper.toResource(obj);
         Recipe recipe = recipeService.create(recipeDto);
@@ -50,7 +52,7 @@ public class RecipeResource {
     @GET
     @Path("/{id}")
     @RolesAllowed("user")
-    public Response getById(Long id) {
+    public Response getById(@PathParam Long id) {
         Recipe recipe = recipeService.getById(id);
         return Response.ok(recipeMapper.toResource(recipe)).build();
     }
@@ -59,8 +61,8 @@ public class RecipeResource {
     @Path("/{id}")
     @Transactional
     @RolesAllowed("user")
-    public Response update(RecipeRequest obj, Long id) {
-        Recipe recipe = recipeService.update(recipeMapper.toResource(obj), id);
+    public Response update(RecipeRequest obj, @PathParam Long id) {
+        Recipe recipe = recipeService.update(obj, id);
         return Response.ok(recipeMapper.toResource(recipe)).build();
     }
 
@@ -68,7 +70,7 @@ public class RecipeResource {
     @Path("/{id}")
     @Transactional
     @RolesAllowed("user")
-    public Response delete(Long id) {
+    public Response delete(@PathParam Long id) {
         recipeService.delete(id);
         return Response.noContent().build();
     }

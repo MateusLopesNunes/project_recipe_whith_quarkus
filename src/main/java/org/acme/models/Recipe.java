@@ -112,4 +112,6 @@ public class Recipe extends PanacheEntityBase {
     public void setImage(String image) {
         this.image = image;
     }
+
+
 }

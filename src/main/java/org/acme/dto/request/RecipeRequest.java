@@ -1,9 +1,5 @@
 package org.acme.dto.request;
 
-import org.acme.models.Category;
-import org.acme.models.User;
-
-
 public class RecipeRequest {
 
     private String title;
@@ -11,8 +7,8 @@ public class RecipeRequest {
     private Long numberOfPortion;
     private String preparationMethod;
     private String image;
-    private User author;
-    private Category category;
+    private Long author;
+    private Long category;
 
     public String getTitle() {
         return title;
@@ -54,19 +50,19 @@ public class RecipeRequest {
         this.image = image;
     }
 
-    public User getAuthor() {
+    public Long getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(Long author) {
         this.author = author;
     }
 
-    public Category getCategory() {
+    public Long getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(Long category) {
         this.category = category;
     }
 }

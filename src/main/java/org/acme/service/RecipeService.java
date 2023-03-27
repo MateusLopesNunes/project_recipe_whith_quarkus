@@ -1,5 +1,6 @@
 package org.acme.service;
 
+import org.acme.dto.request.RecipeRequest;
 import org.acme.models.Recipe;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface RecipeService {
 
     Recipe getById(Long id);
 
-    Recipe update(Recipe obj, Long id);
+    Recipe update(RecipeRequest obj, Long id);
 
     void delete(Long id);
 }

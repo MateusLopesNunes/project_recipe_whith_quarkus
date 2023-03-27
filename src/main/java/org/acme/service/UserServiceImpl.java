@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         Optional<User> user = User.findByIdOptional(id);
-        if (user.isEmpty()) throw new NotFoundException("User not empty");
+        if (user.isEmpty()) throw new NotFoundException("User not found");
 
         user.get().delete();
     }
