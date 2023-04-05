@@ -1,13 +1,21 @@
 package org.acme.dto.request;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class RecipeRequest {
 
+    @NotBlank(message="Title may not be blank")
     private String title;
-    private String description;
+    @NotNull
     private Long numberOfPortion;
+    @NotNull
+    private Long preparationTime;
+    @NotBlank(message="Preparation method may not be blank")
     private String preparationMethod;
-    private String image;
+    @NotNull
     private Long author;
+    @NotNull
     private Long category;
 
     public String getTitle() {
@@ -16,14 +24,6 @@ public class RecipeRequest {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Long getNumberOfPortion() {
@@ -42,14 +42,6 @@ public class RecipeRequest {
         this.preparationMethod = preparationMethod;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public Long getAuthor() {
         return author;
     }
@@ -64,5 +56,13 @@ public class RecipeRequest {
 
     public void setCategory(Long category) {
         this.category = category;
+    }
+
+    public Long getPreparationTime() {
+        return preparationTime;
+    }
+
+    public void setPreparationTime(Long preparationTime) {
+        this.preparationTime = preparationTime;
     }
 }

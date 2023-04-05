@@ -1,10 +1,12 @@
 package org.acme.models;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+
 
 @Entity
 public class Recipe extends PanacheEntityBase {
@@ -13,17 +15,24 @@ public class Recipe extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
     public String title;
-    public String description;
     public Long numberOfPortion;
     public String preparationMethod;
-    public LocalDate PreparationTime = LocalDate.now();
+    public Long preparationTime;
     public LocalDateTime createdAt = LocalDateTime.now();
-    public LocalDateTime updatedAt = LocalDateTime.now();
+    public LocalDateTime updatedAt;
     public String image;
     @ManyToOne
     public User author;
     @ManyToOne
     public Category category;
+
+    public static PanacheQuery<Recipe> findByCategory(Long categoryId){
+          return find("category = " + categoryId);
+    }
+
+    public static PanacheQuery<Recipe> findByUser(Long userId){
+        return find("author = " + userId);
+    }
 
     public Long getId() {
         return id;
@@ -39,14 +48,6 @@ public class Recipe extends PanacheEntityBase {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Long getNumberOfPortion() {
@@ -81,12 +82,12 @@ public class Recipe extends PanacheEntityBase {
         this.category = category;
     }
 
-    public LocalDate getPreparationTime() {
-        return PreparationTime;
+    public Long getPreparationTime() {
+        return preparationTime;
     }
 
-    public void setPreparationTime(LocalDate preparationTime) {
-        PreparationTime = preparationTime;
+    public void setPreparationTime(Long preparationTime) {
+        this.preparationTime = preparationTime;
     }
 
     public LocalDateTime getCreatedAt() {

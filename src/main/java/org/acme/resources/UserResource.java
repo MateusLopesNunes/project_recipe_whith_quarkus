@@ -105,23 +105,12 @@ public class UserResource {
         return userService.resetPassword(email);
     }
 
-    @PATCH()
+    @PATCH
     @Path("/addPerfilImage/{id}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public User addPerfilImage(@MultipartForm MultipartFormDataInput input, @PathParam Long id) {
         return userService.addPerfilImage(input, id);
-    }
-
-    //--------------------------------------------------------------------------
-
-    @POST
-    @Path("/upload")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Transactional
-    public List<String> uploadFile(@MultipartForm MultipartFormDataInput input) {
-        return imageService.uploadFile(input, "/upload/images");
     }
 }

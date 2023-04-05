@@ -7,17 +7,15 @@ import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-
 public class RecipeResponse {
 
     public Long id;
     public String title;
-    public String description;
     public Long numberOfPortion;
     public String preparationMethod;
-    public LocalDate PreparationTime = LocalDate.now();
-    public LocalDateTime createdAt = LocalDateTime.now();
-    public LocalDateTime updatedAt = LocalDateTime.now();
+    public Long preparationTime;
+    public LocalDateTime createdAt;
+    public LocalDateTime updatedAt;
     public String image;
     public User author;
     public Category category;
@@ -38,14 +36,6 @@ public class RecipeResponse {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Long getNumberOfPortion() {
         return numberOfPortion;
     }
@@ -60,6 +50,30 @@ public class RecipeResponse {
 
     public void setPreparationMethod(String preparationMethod) {
         this.preparationMethod = preparationMethod;
+    }
+
+    public Long getPreparationTime() {
+        return preparationTime;
+    }
+
+    public void setPreparationTime(Long preparationTime) {
+        this.preparationTime = preparationTime;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public String getImage() {
@@ -84,29 +98,5 @@ public class RecipeResponse {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public LocalDate getPreparationTime() {
-        return PreparationTime;
-    }
-
-    public void setPreparationTime(LocalDate preparationTime) {
-        PreparationTime = preparationTime;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

@@ -16,10 +16,9 @@ public interface RecipeMapper {
     default Recipe toResource(RecipeRequest recipeReq) {
         Recipe recipe = new Recipe();
         recipe.title = recipeReq.getTitle();
-        recipe.image = recipeReq.getImage();
-        recipe.description = recipeReq.getDescription();
         recipe.numberOfPortion = recipeReq.getNumberOfPortion();
         recipe.preparationMethod = recipeReq.getPreparationMethod();
+        recipe.preparationTime = recipeReq.getPreparationTime();
 
         recipe.author = User.findById(recipeReq.getAuthor());
         recipe.category = Category.findById(recipeReq.getCategory());

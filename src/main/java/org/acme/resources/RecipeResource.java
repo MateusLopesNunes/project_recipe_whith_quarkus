@@ -1,17 +1,13 @@
 package org.acme.resources;
 
-import org.acme.dto.request.CategoryRequest;
 import org.acme.dto.request.RecipeRequest;
-import org.acme.dto.response.CategoryResponse;
 import org.acme.dto.response.RecipeResponse;
-import org.acme.mapper.CategoryMapper;
 import org.acme.mapper.RecipeMapper;
-import org.acme.models.Category;
 import org.acme.models.Recipe;
-import org.acme.models.User;
-import org.acme.service.CategoryService;
 import org.acme.service.RecipeService;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -34,8 +30,30 @@ public class RecipeResource {
     private RecipeMapper recipeMapper;
 
     @GET
-    public Response getAll() {
-        List<Recipe> recipe = recipeService.getAll();
+    public Response getAll(@QueryParam("page") Integer page,
+                           @QueryParam("pageSize") Integer pageSize) {
+
+        List<Recipe> recipe = recipeService.getAll(page, pageSize);
+        List<RecipeResponse> categoriesDto = recipeMapper.toResourceList(recipe);
+        return Response.ok(categoriesDto).build();
+    }
+
+    @GET
+    @Path("/category/{categoryId}")
+    public Response getRecipeByCategory(@QueryParam("page") Integer page,
+                           @QueryParam("pageSize") Integer pageSize, @PathParam Long categoryId) {
+
+        List<Recipe> recipe = recipeService.getByCategory(page, pageSize, categoryId);
+        List<RecipeResponse> categoriesDto = recipeMapper.toResourceList(recipe);
+        return Response.ok(categoriesDto).build();
+    }
+
+    @GET
+    @Path("/user/{userId}")
+    public Response getRecipeByUser(@QueryParam("page") Integer page,
+                                        @QueryParam("pageSize") Integer pageSize, @PathParam Long userId) {
+
+        List<Recipe> recipe = recipeService.getByUser(page, pageSize, userId);
         List<RecipeResponse> categoriesDto = recipeMapper.toResourceList(recipe);
         return Response.ok(categoriesDto).build();
     }
@@ -47,6 +65,15 @@ public class RecipeResource {
         Recipe recipeDto = recipeMapper.toResource(obj);
         Recipe recipe = recipeService.create(recipeDto);
         return Response.created(URI.create("/category/" + recipe.id)).build();
+    }
+
+    @PATCH
+    @Path("/uploadImage/{id}")
+    @Transactional
+    //@RolesAllowed("user")
+    public Response uploadImage(@MultipartForm MultipartFormDataInput input, @PathParam Long id) {
+        Recipe recipe = recipeService.uploadImage(input, id);
+        return Response.ok().build();
     }
 
     @GET

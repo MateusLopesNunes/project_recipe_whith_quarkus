@@ -48,8 +48,8 @@ public class CategoryResource {
 
     @GET
     @Path("/{id}")
-    @RolesAllowed("user")
-    public Response getById(Long id) {
+    //@RolesAllowed("user")
+    public Response getById(@PathParam Long id) {
         Category category = categoryService.getById(id);
         return Response.ok(categoryMapper.toResource(category)).build();
     }
@@ -58,7 +58,7 @@ public class CategoryResource {
     @Path("/{id}")
     @Transactional
     @RolesAllowed("user")
-    public Response update(CategoryRequest obj, Long id) {
+    public Response update(CategoryRequest obj, @PathParam Long id) {
         Category category = categoryService.update(categoryMapper.toResource(obj), id);
         return Response.ok(categoryMapper.toResource(category)).build();
     }
@@ -77,7 +77,7 @@ public class CategoryResource {
     @Path("/{id}")
     @Transactional
     @RolesAllowed("user")
-    public Response delete(Long id) {
+    public Response delete(@PathParam Long id) {
         categoryService.delete(id);
         return Response.noContent().build();
     }
