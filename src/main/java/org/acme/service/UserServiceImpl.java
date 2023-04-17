@@ -4,13 +4,20 @@ import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.reactive.ReactiveMailer;
 import org.acme.dto.request.AuthRequest;
+import org.acme.dto.request.ImagePath;
 import org.acme.models.User;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -118,7 +125,7 @@ public class UserServiceImpl implements UserService {
         if (userOpt.isEmpty()) throw new NotFoundException("User not found");
 
         User user = userOpt.get();
-        user.perfilImage = imageService.uploadFile(input, "/upload/images")
+        user.perfilImage = imageService.uploadFile(input, "/images/user")
                                        .stream().findFirst().get();
 
         return user;

@@ -1,11 +1,18 @@
 package org.acme.resources;
 
 import org.acme.dto.request.CategoryRequest;
+import org.acme.dto.request.ImagePath;
 import org.acme.dto.response.CategoryResponse;
 import org.acme.mapper.CategoryMapper;
 import org.acme.models.Category;
 import org.acme.models.User;
 import org.acme.service.CategoryService;
+import org.acme.service.ImageService;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
@@ -17,6 +24,10 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 
@@ -30,6 +41,17 @@ public class CategoryResource {
     @Inject
     private CategoryMapper categoryMapper;
 
+    @Inject
+    private ImageService imageService;
+
+    @Operation(summary = "Busca todas as categorias")
+    @APIResponse(responseCode = "200", //
+            description = "Retorna todas as categorias cadastrados", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = CategoryResponse.class, //
+                            type = SchemaType.ARRAY)))
     @GET
     public Response getAll() {
         List<Category> categories = categoryService.getAll();
@@ -37,6 +59,15 @@ public class CategoryResource {
         return Response.ok(categoriesDto).build();
     }
 
+    @Operation(summary = "Cadastra uma categoria")
+    @APIResponse(responseCode = "201", //
+            description = "Retorna todas as categorias cadastradas", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = Category.class, //
+                            type = SchemaType.ARRAY
+                    )))
     @POST
     @Transactional
     //@RolesAllowed("user")
@@ -46,6 +77,14 @@ public class CategoryResource {
         return Response.created(URI.create("/category/" + category.id)).build();
     }
 
+    @Operation(summary = "Busca uma category")
+    @APIResponse(responseCode = "200", //
+            description = "Retorna uma categoria por id", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = CategoryResponse.class, //
+                            type = SchemaType.ARRAY)))
     @GET
     @Path("/{id}")
     //@RolesAllowed("user")
@@ -54,6 +93,14 @@ public class CategoryResource {
         return Response.ok(categoryMapper.toResource(category)).build();
     }
 
+    @Operation(summary = "Atualiza uma categoria")
+    @APIResponse(responseCode = "200", //
+            description = "Atualiza a categoria", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = Category.class, //
+                            type = SchemaType.ARRAY)))
     @PUT
     @Path("/{id}")
     @Transactional
@@ -63,7 +110,15 @@ public class CategoryResource {
         return Response.ok(categoryMapper.toResource(category)).build();
     }
 
-    @PATCH()
+    @Operation(summary = "Faz upload da imagem da categoria")
+    @APIResponse(responseCode = "200", //
+            description = "Faz upload da imagem da categoria", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = Category.class, //
+                            type = SchemaType.ARRAY)))
+    @PATCH
     @Path("/addImage/{id}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
@@ -73,6 +128,10 @@ public class CategoryResource {
         return Response.ok(categoryMapper.toResource(category)).build();
     }
 
+    @Operation(summary = "Deleta uma categoria")
+    @APIResponse(responseCode = "200", //
+            description = "Deleta uma categoria pelo id"//
+    )
     @DELETE
     @Path("/{id}")
     @Transactional
@@ -80,5 +139,23 @@ public class CategoryResource {
     public Response delete(@PathParam Long id) {
         categoryService.delete(id);
         return Response.noContent().build();
+    }
+
+    @Operation(summary = "Busca uma imagem")
+    @APIResponse(responseCode = "200", //
+            description = "Busca uma imagem no servidor", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = ImagePath.class, //
+                            type = SchemaType.ARRAY)))
+    @POST
+    @Path("image")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({"image/png", "image/jpeg", "image/jpg"})
+    public Response findImage(ImagePath imagePath) {
+        // Cria um objeto File que aponta para a imagem
+        InputStream image = imageService.findImage(imagePath);
+        return Response.ok(image).build();
     }
 }

@@ -3,12 +3,18 @@ package org.acme.resources;
 import io.quarkus.mailer.reactive.ReactiveMailer;
 import io.smallrye.common.annotation.Blocking;
 import org.acme.dto.request.AuthRequest;
+import org.acme.dto.request.ImagePath;
 import org.acme.dto.request.UserRequest;
 import org.acme.dto.request.UserUpdateRequest;
 import org.acme.mapper.UserMapper;
 import org.acme.models.User;
 import org.acme.service.ImageService;
 import org.acme.service.UserService;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
@@ -20,7 +26,9 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.InputStream;
 import java.net.URI;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
 
@@ -55,6 +63,14 @@ public class UserResource {
         return Response.ok(userMapper.toResource(user)).build();
     }
 
+    @Operation(summary = "Cadastro de usuário")
+    @APIResponse(responseCode = "201", //
+            description = "Cafastra um usuário", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = User.class, //
+                            type = SchemaType.ARRAY)))
     @POST
     @Transactional
     public Response create(@Valid UserRequest obj) {
@@ -63,6 +79,14 @@ public class UserResource {
         return Response.created(URI.create("/category/" + user.id)).build();
     }
 
+    @Operation(summary = "Buscar usuário")
+    @APIResponse(responseCode = "200", //
+            description = "Buscar usuário por id", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = User.class, //
+                            type = SchemaType.ARRAY)))
     @GET
     @Path("/{id}")
     //@RolesAllowed("user")
@@ -71,6 +95,14 @@ public class UserResource {
         return Response.ok(userMapper.toResource(user)).build();
     }
 
+    @Operation(summary = "Atualização de usuário")
+    @APIResponse(responseCode = "200", //
+            description = "Atualização de cadastro de usuário", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = User.class, //
+                            type = SchemaType.ARRAY)))
     @PUT
     @Path("/{id}")
     @Transactional
@@ -80,6 +112,9 @@ public class UserResource {
         return Response.ok(userMapper.toResource(user)).build();
     }
 
+    @Operation(summary = "Deleta um usuário")
+    @APIResponse(responseCode = "200", //
+            description = "Deleta um usuário exitente")
     @DELETE
     @Path("/{id}")
     @Transactional
@@ -89,6 +124,14 @@ public class UserResource {
         return Response.noContent().build();
     }
 
+    @Operation(summary = "Login")
+    @APIResponse(responseCode = "200", //
+            description = "Loga o usuário no sistema", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = AuthRequest.class, //
+                            type = SchemaType.ARRAY)))
     @POST
     @Path("/auth")
     @Transactional
@@ -97,6 +140,13 @@ public class UserResource {
         return Response.ok(login).build();
     }
 
+    @Operation(summary = "Esqueci minha senha")
+    @APIResponse(responseCode = "200", //
+            description = "Atualiza a senha do usuário", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            type = SchemaType.ARRAY)))
     @GET
     @Path("/resetPassword/{email}")
     @Blocking
@@ -105,6 +155,14 @@ public class UserResource {
         return userService.resetPassword(email);
     }
 
+    @Operation(summary = "Adciona uma imagem de perfil")
+    @APIResponse(responseCode = "200", //
+            description = "Adciona uma imagem de perfil", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = ImagePath.class, //
+                            type = SchemaType.ARRAY)))
     @PATCH
     @Path("/addPerfilImage/{id}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -112,5 +170,23 @@ public class UserResource {
     @Transactional
     public User addPerfilImage(@MultipartForm MultipartFormDataInput input, @PathParam Long id) {
         return userService.addPerfilImage(input, id);
+    }
+
+    @Operation(summary = "Busca uma imagem")
+    @APIResponse(responseCode = "200", //
+            description = "Busca a imagem de perfil", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = ImagePath.class, //
+                            type = SchemaType.ARRAY)))
+    @POST
+    @Path("image")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({"image/png", "image/jpeg", "image/jpg"})
+    public Response findImage(ImagePath imagePath) {
+        // Cria um objeto File que aponta para a imagem
+        InputStream image = imageService.findImage(imagePath);
+        return Response.ok(image).build();
     }
 }

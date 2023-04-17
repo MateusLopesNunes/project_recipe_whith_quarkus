@@ -1,10 +1,17 @@
 package org.acme.resources;
 
+import org.acme.dto.request.ImagePath;
 import org.acme.dto.request.RecipeRequest;
 import org.acme.dto.response.RecipeResponse;
 import org.acme.mapper.RecipeMapper;
 import org.acme.models.Recipe;
+import org.acme.service.ImageService;
 import org.acme.service.RecipeService;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
@@ -16,6 +23,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 
@@ -29,6 +37,17 @@ public class RecipeResource {
     @Inject
     private RecipeMapper recipeMapper;
 
+    @Inject
+    private ImageService imageService;
+
+    @Operation(summary = "Adciona todas as receitas")
+    @APIResponse(responseCode = "200", //
+            description = "Adciona uma imagem de perfil", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = ImagePath.class, //
+                            type = SchemaType.ARRAY)))
     @GET
     public Response getAll(@QueryParam("page") Integer page,
                            @QueryParam("pageSize") Integer pageSize) {
@@ -38,6 +57,14 @@ public class RecipeResource {
         return Response.ok(categoriesDto).build();
     }
 
+    @Operation(summary = "Adciona uma imagem de perfil")
+    @APIResponse(responseCode = "200", //
+            description = "Adciona uma imagem de perfil", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = ImagePath.class, //
+                            type = SchemaType.ARRAY)))
     @GET
     @Path("/category/{categoryId}")
     public Response getRecipeByCategory(@QueryParam("page") Integer page,
@@ -48,6 +75,14 @@ public class RecipeResource {
         return Response.ok(categoriesDto).build();
     }
 
+    @Operation(summary = "Adciona uma imagem de perfil")
+    @APIResponse(responseCode = "200", //
+            description = "Adciona uma imagem de perfil", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = ImagePath.class, //
+                            type = SchemaType.ARRAY)))
     @GET
     @Path("/user/{userId}")
     public Response getRecipeByUser(@QueryParam("page") Integer page,
@@ -58,6 +93,14 @@ public class RecipeResource {
         return Response.ok(categoriesDto).build();
     }
 
+    @Operation(summary = "Adciona uma imagem de perfil")
+    @APIResponse(responseCode = "200", //
+            description = "Adciona uma imagem de perfil", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = ImagePath.class, //
+                            type = SchemaType.ARRAY)))
     @POST
     @Transactional
     //@RolesAllowed("user")
@@ -67,6 +110,14 @@ public class RecipeResource {
         return Response.created(URI.create("/category/" + recipe.id)).build();
     }
 
+    @Operation(summary = "Adciona uma imagem de perfil")
+    @APIResponse(responseCode = "200", //
+            description = "Adciona uma imagem de perfil", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = ImagePath.class, //
+                            type = SchemaType.ARRAY)))
     @PATCH
     @Path("/uploadImage/{id}")
     @Transactional
@@ -76,6 +127,14 @@ public class RecipeResource {
         return Response.ok().build();
     }
 
+    @Operation(summary = "Adciona uma imagem de perfil")
+    @APIResponse(responseCode = "200", //
+            description = "Adciona uma imagem de perfil", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = ImagePath.class, //
+                            type = SchemaType.ARRAY)))
     @GET
     @Path("/{id}")
     @RolesAllowed("user")
@@ -84,6 +143,14 @@ public class RecipeResource {
         return Response.ok(recipeMapper.toResource(recipe)).build();
     }
 
+    @Operation(summary = "Adciona uma imagem de perfil")
+    @APIResponse(responseCode = "200", //
+            description = "Adciona uma imagem de perfil", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = ImagePath.class, //
+                            type = SchemaType.ARRAY)))
     @PUT
     @Path("/{id}")
     @Transactional
@@ -93,6 +160,14 @@ public class RecipeResource {
         return Response.ok(recipeMapper.toResource(recipe)).build();
     }
 
+    @Operation(summary = "Adciona uma imagem de perfil")
+    @APIResponse(responseCode = "200", //
+            description = "Adciona uma imagem de perfil", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = ImagePath.class, //
+                            type = SchemaType.ARRAY)))
     @DELETE
     @Path("/{id}")
     @Transactional
@@ -100,5 +175,23 @@ public class RecipeResource {
     public Response delete(@PathParam Long id) {
         recipeService.delete(id);
         return Response.noContent().build();
+    }
+
+    @Operation(summary = "Adciona uma imagem de perfil")
+    @APIResponse(responseCode = "200", //
+            description = "Adciona uma imagem de perfil", //
+            content = @Content(//
+                    mediaType = MediaType.APPLICATION_JSON, //
+                    schema = @Schema(//
+                            implementation = ImagePath.class, //
+                            type = SchemaType.ARRAY)))
+    @POST
+    @Path("image")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({"image/png", "image/jpeg", "image/jpg"})
+    public Response findImage(ImagePath imagePath) {
+        // Cria um objeto File que aponta para a imagem
+        InputStream image = imageService.findImage(imagePath);
+        return Response.ok(image).build();
     }
 }

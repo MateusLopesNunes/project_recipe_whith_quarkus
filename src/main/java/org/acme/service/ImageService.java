@@ -1,23 +1,25 @@
 package org.acme.service;
 
+import org.acme.dto.request.ImagePath;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MultivaluedMap;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.ws.rs.core.Response;
+import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @ApplicationScoped
 public class ImageService {
@@ -52,13 +54,18 @@ public class ImageService {
         return filePath;
     }
 
+
     private String writeFile(InputStream inputStream,String fileName, String path)
             throws IOException {
         byte[] bytes = IOUtils.toByteArray(inputStream);
+
+        //String caminhoDiretorioRecursos = getClass().getResource("/").getPath();
+        //Path caminhoDiretorio = Paths.get(caminhoDiretorioRecursos);
+
         File customDir = new File(path);
 
-        String pathName = customDir.getAbsolutePath() +
-                File.separator + fileName;
+        String pathName = "src/main/resources" +
+                 path + "/" + fileName;
 
         Files.write(Paths.get(pathName), bytes,
                 StandardOpenOption.CREATE_NEW);
@@ -77,5 +84,19 @@ public class ImageService {
             }
         }
         return "";
+    }
+
+    public InputStream findImage(ImagePath imagePath) {
+        File image = new File(imagePath.getPath());
+
+        if (!image.exists()) {
+            throw new NotFoundException();
+        }
+
+        try {
+            return new FileInputStream(image);
+        } catch (FileNotFoundException e) {
+            throw new NotFoundException();
+        }
     }
 }

@@ -66,7 +66,7 @@ public class RecipeServiceImpl implements RecipeService{
         if (recipeOtp.isEmpty()) throw new NotFoundException("Recipe not found");
 
         Recipe recipe = recipeOtp.get();
-        recipe.image = imageService.uploadFile(input, "/upload/recipes")
+        recipe.image = imageService.uploadFile(input, "/images/recipe")
                 .stream().findFirst().get();
 
         return recipe;
