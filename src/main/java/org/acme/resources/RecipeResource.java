@@ -40,13 +40,13 @@ public class RecipeResource {
     @Inject
     private ImageService imageService;
 
-    @Operation(summary = "Adciona todas as receitas")
+    @Operation(summary = "Busca todas as receitas")
     @APIResponse(responseCode = "200", //
-            description = "Adciona uma imagem de perfil", //
+            description = "Busca todas as receitas", //
             content = @Content(//
                     mediaType = MediaType.APPLICATION_JSON, //
                     schema = @Schema(//
-                            implementation = ImagePath.class, //
+                            implementation = Recipe.class, //
                             type = SchemaType.ARRAY)))
     @GET
     public Response getAll(@QueryParam("page") Integer page,
@@ -57,13 +57,13 @@ public class RecipeResource {
         return Response.ok(categoriesDto).build();
     }
 
-    @Operation(summary = "Adciona uma imagem de perfil")
+    @Operation(summary = "Busca receitas por categoria")
     @APIResponse(responseCode = "200", //
-            description = "Adciona uma imagem de perfil", //
+            description = "Busca receitas por categoria", //
             content = @Content(//
                     mediaType = MediaType.APPLICATION_JSON, //
                     schema = @Schema(//
-                            implementation = ImagePath.class, //
+                            implementation = Recipe.class, //
                             type = SchemaType.ARRAY)))
     @GET
     @Path("/category/{categoryId}")
@@ -75,13 +75,13 @@ public class RecipeResource {
         return Response.ok(categoriesDto).build();
     }
 
-    @Operation(summary = "Adciona uma imagem de perfil")
+    @Operation(summary = "Busca receitas por usuário")
     @APIResponse(responseCode = "200", //
-            description = "Adciona uma imagem de perfil", //
+            description = "Busca receitas por usuário", //
             content = @Content(//
                     mediaType = MediaType.APPLICATION_JSON, //
                     schema = @Schema(//
-                            implementation = ImagePath.class, //
+                            implementation = Recipe.class, //
                             type = SchemaType.ARRAY)))
     @GET
     @Path("/user/{userId}")
@@ -93,13 +93,13 @@ public class RecipeResource {
         return Response.ok(categoriesDto).build();
     }
 
-    @Operation(summary = "Adciona uma imagem de perfil")
+    @Operation(summary = "cadastro de receita")
     @APIResponse(responseCode = "200", //
-            description = "Adciona uma imagem de perfil", //
+            description = "cadastro de receita", //
             content = @Content(//
                     mediaType = MediaType.APPLICATION_JSON, //
                     schema = @Schema(//
-                            implementation = ImagePath.class, //
+                            implementation = Recipe.class, //
                             type = SchemaType.ARRAY)))
     @POST
     @Transactional
@@ -110,14 +110,11 @@ public class RecipeResource {
         return Response.created(URI.create("/category/" + recipe.id)).build();
     }
 
-    @Operation(summary = "Adciona uma imagem de perfil")
+    @Operation(summary = "Adciona a imagem da receita")
     @APIResponse(responseCode = "200", //
             description = "Adciona uma imagem de perfil", //
             content = @Content(//
-                    mediaType = MediaType.APPLICATION_JSON, //
-                    schema = @Schema(//
-                            implementation = ImagePath.class, //
-                            type = SchemaType.ARRAY)))
+                    mediaType = MediaType.APPLICATION_JSON))
     @PATCH
     @Path("/uploadImage/{id}")
     @Transactional
@@ -127,13 +124,13 @@ public class RecipeResource {
         return Response.ok().build();
     }
 
-    @Operation(summary = "Adciona uma imagem de perfil")
+    @Operation(summary = "Busca a receita pelo id")
     @APIResponse(responseCode = "200", //
-            description = "Adciona uma imagem de perfil", //
+            description = "Busca a receita pelo id", //
             content = @Content(//
                     mediaType = MediaType.APPLICATION_JSON, //
                     schema = @Schema(//
-                            implementation = ImagePath.class, //
+                            implementation = Recipe.class, //
                             type = SchemaType.ARRAY)))
     @GET
     @Path("/{id}")
@@ -143,13 +140,13 @@ public class RecipeResource {
         return Response.ok(recipeMapper.toResource(recipe)).build();
     }
 
-    @Operation(summary = "Adciona uma imagem de perfil")
+    @Operation(summary = "Atualiza uma receita")
     @APIResponse(responseCode = "200", //
-            description = "Adciona uma imagem de perfil", //
+            description = "Atualiza uma receita", //
             content = @Content(//
                     mediaType = MediaType.APPLICATION_JSON, //
                     schema = @Schema(//
-                            implementation = ImagePath.class, //
+                            implementation = Recipe.class, //
                             type = SchemaType.ARRAY)))
     @PUT
     @Path("/{id}")
@@ -164,10 +161,7 @@ public class RecipeResource {
     @APIResponse(responseCode = "200", //
             description = "Adciona uma imagem de perfil", //
             content = @Content(//
-                    mediaType = MediaType.APPLICATION_JSON, //
-                    schema = @Schema(//
-                            implementation = ImagePath.class, //
-                            type = SchemaType.ARRAY)))
+                    mediaType = MediaType.APPLICATION_JSON))
     @DELETE
     @Path("/{id}")
     @Transactional
@@ -177,9 +171,9 @@ public class RecipeResource {
         return Response.noContent().build();
     }
 
-    @Operation(summary = "Adciona uma imagem de perfil")
+    @Operation(summary = "Busca a imagem da receita")
     @APIResponse(responseCode = "200", //
-            description = "Adciona uma imagem de perfil", //
+            description = "Busca a imagem da receita", //
             content = @Content(//
                     mediaType = MediaType.APPLICATION_JSON, //
                     schema = @Schema(//
