@@ -104,7 +104,7 @@ public class CategoryResource {
     @PUT
     @Path("/{id}")
     @Transactional
-    @RolesAllowed("user")
+    //@RolesAllowed("user")
     public Response update(CategoryRequest obj, @PathParam Long id) {
         Category category = categoryService.update(categoryMapper.toResource(obj), id);
         return Response.ok(categoryMapper.toResource(category)).build();
@@ -135,7 +135,7 @@ public class CategoryResource {
     @DELETE
     @Path("/{id}")
     @Transactional
-    @RolesAllowed("user")
+    //@RolesAllowed("user")
     public Response delete(@PathParam Long id) {
         categoryService.delete(id);
         return Response.noContent().build();
