@@ -22,7 +22,6 @@ C:\Users\mateus.nunes\Documents\quarkus\proj-roni\project_recipe_whith_quarkus\s
 C:\Users\mateus.nunes\Documents\quarkus\proj-roni\project_recipe_whith_quarkus\src\main\java\org\acme\dto\request\IngredientRequest.java
 C:\Users\mateus.nunes\Documents\quarkus\proj-roni\project_recipe_whith_quarkus\src\main\java\org\acme\dto\response\ExceptionResponse.java
 C:\Users\mateus.nunes\Documents\quarkus\proj-roni\project_recipe_whith_quarkus\src\main\java\org\acme\dto\request\ImagePath.java
-C:\Users\mateus.nunes\Documents\quarkus\proj-roni\project_recipe_whith_quarkus\src\main\java\org\acme\service\CategoryServiceImpl.java
 C:\Users\mateus.nunes\Documents\quarkus\proj-roni\project_recipe_whith_quarkus\src\main\java\org\acme\service\ImageService.java
 C:\Users\mateus.nunes\Documents\quarkus\proj-roni\project_recipe_whith_quarkus\src\main\java\org\acme\mapper\CategoryMapper.java
 C:\Users\mateus.nunes\Documents\quarkus\proj-roni\project_recipe_whith_quarkus\src\main\java\org\acme\service\RecipeServiceImpl.java

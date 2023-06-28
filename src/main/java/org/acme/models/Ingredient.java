@@ -1,6 +1,7 @@
 package org.acme.models;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import org.acme.dto.request.IngredientRequest;
 
 import javax.persistence.*;
 
@@ -10,8 +11,14 @@ public class Ingredient extends PanacheEntityBase  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    @ManyToOne
-    private Recipe recipe;
+
+    public Ingredient() {
+    }
+
+    public Ingredient(IngredientRequest request) {
+        this.name = request.getName();
+    }
+
 
     public Long getId() {
         return id;
@@ -27,13 +34,5 @@ public class Ingredient extends PanacheEntityBase  {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
     }
 }

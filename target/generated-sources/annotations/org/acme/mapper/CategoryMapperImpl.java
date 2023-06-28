@@ -10,7 +10,7 @@ import org.acme.models.Category;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-08T17:36:42-0300",
+    date = "2023-06-27T21:47:37-0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.6 (GraalVM Community)"
 )
 @ApplicationScoped

@@ -53,8 +53,7 @@ public class RecipeResource {
                            @QueryParam("pageSize") Integer pageSize) {
 
         List<Recipe> recipe = recipeService.getAll(page, pageSize);
-        List<RecipeResponse> categoriesDto = recipeMapper.toResourceList(recipe);
-        return Response.ok(categoriesDto).build();
+        return Response.ok(recipe).build();
     }
 
     @Operation(summary = "Busca receitas por categoria")
@@ -71,8 +70,7 @@ public class RecipeResource {
                            @QueryParam("pageSize") Integer pageSize, @PathParam Long categoryId) {
 
         List<Recipe> recipe = recipeService.getByCategory(page, pageSize, categoryId);
-        List<RecipeResponse> categoriesDto = recipeMapper.toResourceList(recipe);
-        return Response.ok(categoriesDto).build();
+        return Response.ok(recipe).build();
     }
 
     @Operation(summary = "Busca receitas por usuário")
@@ -89,8 +87,7 @@ public class RecipeResource {
                                         @QueryParam("pageSize") Integer pageSize, @PathParam Long userId) {
 
         List<Recipe> recipe = recipeService.getByUser(page, pageSize, userId);
-        List<RecipeResponse> categoriesDto = recipeMapper.toResourceList(recipe);
-        return Response.ok(categoriesDto).build();
+        return Response.ok(recipe).build();
     }
 
     @Operation(summary = "cadastro de receita")
@@ -134,10 +131,10 @@ public class RecipeResource {
                             type = SchemaType.ARRAY)))
     @GET
     @Path("/{id}")
-    @RolesAllowed("user")
+    //@RolesAllowed("user")
     public Response getById(@PathParam Long id) {
         Recipe recipe = recipeService.getById(id);
-        return Response.ok(recipeMapper.toResource(recipe)).build();
+        return Response.ok(recipe).build();
     }
 
     @Operation(summary = "Atualiza uma receita")
@@ -169,23 +166,5 @@ public class RecipeResource {
     public Response delete(@PathParam Long id) {
         recipeService.delete(id);
         return Response.noContent().build();
-    }
-
-    @Operation(summary = "Busca a imagem da receita")
-    @APIResponse(responseCode = "200", //
-            description = "Busca a imagem da receita", //
-            content = @Content(//
-                    mediaType = MediaType.APPLICATION_JSON, //
-                    schema = @Schema(//
-                            implementation = ImagePath.class, //
-                            type = SchemaType.ARRAY)))
-    @POST
-    @Path("image")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({"image/png", "image/jpeg", "image/jpg"})
-    public Response findImage(ImagePath imagePath) {
-        // Cria um objeto File que aponta para a imagem
-        InputStream image = imageService.findImage(imagePath);
-        return Response.ok(image).build();
     }
 }

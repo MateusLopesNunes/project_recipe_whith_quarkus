@@ -69,7 +69,7 @@ public class ImageService {
 
         Files.write(Paths.get(pathName), bytes,
                 StandardOpenOption.CREATE_NEW);
-        return pathName;
+        return fileName;
     }
 
     private String getFileName(MultivaluedMap<String, String> header) {
@@ -84,19 +84,5 @@ public class ImageService {
             }
         }
         return "";
-    }
-
-    public InputStream findImage(ImagePath imagePath) {
-        File image = new File(imagePath.getPath());
-
-        if (!image.exists()) {
-            throw new NotFoundException();
-        }
-
-        try {
-            return new FileInputStream(image);
-        } catch (FileNotFoundException e) {
-            throw new NotFoundException();
-        }
     }
 }

@@ -24,10 +24,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
 import java.util.List;
 
@@ -149,13 +146,15 @@ public class CategoryResource {
                     schema = @Schema(//
                             implementation = ImagePath.class, //
                             type = SchemaType.ARRAY)))
-    @POST
-    @Path("image")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({"image/png", "image/jpeg", "image/jpg"})
-    public Response findImage(ImagePath imagePath) {
-        // Cria um objeto File que aponta para a imagem
-        InputStream image = imageService.findImage(imagePath);
-        return Response.ok(image).build();
+    @GET
+    @Path("/image/{path}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getImage(@PathParam String path) throws IOException {
+        InputStream imageStream = getClass().getResourceAsStream("/images/category/" + path);
+        if (imageStream != null) {
+            return Response.ok(imageStream).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 }

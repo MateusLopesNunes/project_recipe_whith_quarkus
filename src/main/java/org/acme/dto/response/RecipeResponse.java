@@ -6,6 +6,7 @@ import org.acme.models.User;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class RecipeResponse {
 
@@ -19,6 +20,7 @@ public class RecipeResponse {
     public String image;
     public User author;
     public Category category;
+    public List<IngredientResponse> ingredients;
 
     public Long getId() {
         return id;
@@ -98,5 +100,9 @@ public class RecipeResponse {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public List<IngredientResponse> getIngredients() {
+        return ingredients;
     }
 }

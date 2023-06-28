@@ -52,6 +52,8 @@ io.quarkus:quarkus-agroal::jar:2.16.3.Final
 io.quarkus:quarkus-arc::jar:2.16.3.Final
 io.quarkus:quarkus-bootstrap-runner::jar:2.16.3.Final
 io.quarkus:quarkus-caffeine::jar:2.16.3.Final
+io.quarkus:quarkus-container-image-jib::jar:2.16.3.Final
+io.quarkus:quarkus-container-image::jar:2.16.3.Final
 io.quarkus:quarkus-core::jar:2.16.3.Final
 io.quarkus:quarkus-credentials::jar:2.16.3.Final
 io.quarkus:quarkus-datasource-common::jar:2.16.3.Final

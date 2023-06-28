@@ -171,22 +171,4 @@ public class UserResource {
     public User addPerfilImage(@MultipartForm MultipartFormDataInput input, @PathParam Long id) {
         return userService.addPerfilImage(input, id);
     }
-
-    @Operation(summary = "Busca uma imagem")
-    @APIResponse(responseCode = "200", //
-            description = "Busca a imagem de perfil", //
-            content = @Content(//
-                    mediaType = MediaType.APPLICATION_JSON, //
-                    schema = @Schema(//
-                            implementation = ImagePath.class, //
-                            type = SchemaType.ARRAY)))
-    @POST
-    @Path("image")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({"image/png", "image/jpeg", "image/jpg"})
-    public Response findImage(ImagePath imagePath) {
-        // Cria um objeto File que aponta para a imagem
-        InputStream image = imageService.findImage(imagePath);
-        return Response.ok(image).build();
-    }
 }

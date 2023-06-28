@@ -49,9 +49,10 @@ public class CategoryServiceImpl implements CategoryService{
         if (categoryOpt.isEmpty()) throw new NotFoundException("Category not empty");
 
         Category category = categoryOpt.get();
-        category.image = imageService.uploadFile(input, "/images/category")
+        String url = "http://localhost:8080/category/image/";
+        String fileName = imageService.uploadFile(input, "/images/category")
                                      .stream().findFirst().get();
-
+        category.image = url + fileName;
         return category;
     }
 

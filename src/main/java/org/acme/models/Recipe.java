@@ -25,6 +25,8 @@ public class Recipe extends PanacheEntityBase {
     public User author;
     @ManyToOne
     public Category category;
+    @OneToMany(cascade = CascadeType.ALL)
+    public List<Ingredient> ingredients;
 
     public static PanacheQuery<Recipe> findByCategory(Long categoryId){
           return find("category = " + categoryId);
@@ -114,5 +116,7 @@ public class Recipe extends PanacheEntityBase {
         this.image = image;
     }
 
-
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
 }

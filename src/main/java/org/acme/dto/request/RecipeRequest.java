@@ -2,6 +2,7 @@ package org.acme.dto.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class RecipeRequest {
 
@@ -17,6 +18,8 @@ public class RecipeRequest {
     private Long author;
     @NotNull
     private Long category;
+    @NotNull
+    private List<IngredientRequest> ingredients;
 
     public String getTitle() {
         return title;
@@ -64,5 +67,13 @@ public class RecipeRequest {
 
     public void setPreparationTime(Long preparationTime) {
         this.preparationTime = preparationTime;
+    }
+
+    public List<IngredientRequest> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<IngredientRequest> ingredients) {
+        this.ingredients = ingredients;
     }
 }

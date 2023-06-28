@@ -9,24 +9,16 @@ import org.acme.models.Ingredient;
 import org.acme.models.Recipe;
 import org.acme.models.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 @Mapper(componentModel = "cdi")
 public interface IngredientMapper {
 
-    default Ingredient toResource(IngredientRequest ingredientReq) {
-        Ingredient ingredient = new Ingredient();
-//        recipe.title = recipeReq.getTitle();
-//        recipe.numberOfPortion = recipeReq.getNumberOfPortion();
-//        recipe.preparationMethod = recipeReq.getPreparationMethod();
-//        recipe.preparationTime = recipeReq.getPreparationTime();
-//
-//        recipe.author = User.findById(recipeReq.getAuthor());
-//        recipe.category = Category.findById(recipeReq.getCategory());
+    IngredientMapper INSTANCE = Mappers.getMapper( IngredientMapper.class );
 
-        return ingredient;
-    }
+    List<Ingredient> toResource(List<IngredientRequest> ingredientReq);
 
     IngredientResponse toResource(Ingredient ingredient);
 
